@@ -1,5 +1,6 @@
 # Bank account kata
-> Think of your personal bank account experience. When in doubt, go for the simplest solution
+> Think of your personal bank account experience. 
+When in doubt, go for the simplest solution
 
 ## Requirements
 
@@ -34,17 +35,33 @@ As a bank client
 
 I want to see the history (operation, date, amount, balance) of my operations
 
+## Tech stack
+- ReactJs
+- Spring Boot REST API
+- MongoDB
+
 ## Installation
 ### Requirements
 - Node.js
 - npm or Yarn
 - MongoDB
+- Java 11 and above
 
+### Steps
 Clone the repository on your local machine
 
-Use your package manager to install the dependancies
+Use your package manager to install the dependancies:
 ```
-npm install
 yarn install
+```
+
+Go the bank-account-kata folder to launch the java app:
+```
+mvn spring-boot:run
+```
+
+Then go to the frontend (src/main/frontend) folder and launch React:
+```
+yarn start
 ```
 
