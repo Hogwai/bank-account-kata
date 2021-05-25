@@ -56,7 +56,7 @@ public class OperationController {
 		Client client = clientRepository.findByUsername(withdrawal.getClient().getUsername());
 		if (client.getCurrentBalance().compareTo(withdrawal.getAmount()) < 0) {
 			return ResponseEntity.status(HttpStatus.FORBIDDEN)
-					.body("Vous n'avez pas assez d'argent sur votre compte pour effectuer un retrait.");
+					.body("Vous n'avez pas assez d'argent sur votre compte pour effectuer ce retrait.");
 		}
 		client.setCurrentBalance(client.getCurrentBalance().subtract(withdrawal.getAmount()));
 		clientRepository.save(client);

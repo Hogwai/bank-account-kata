@@ -4,7 +4,8 @@ import NavBar from './NavBar';
 import {
     Button, Container, Card, CardBody,
     CardTitle, CardSubtitle, Row, Col, Modal,
-    ModalHeader, ModalBody, Form, FormGroup, Input, Label, Table
+    ModalHeader, ModalBody, Form, FormGroup, 
+    Input, Label, Table, Alert
 } from 'reactstrap';
 import axios from 'axios';
 import { Helmet } from 'react-helmet';
@@ -38,7 +39,8 @@ class Home extends Component {
             operation: this.emptyOperation,
             openModal: false,
             modalTitle: '',
-            operations: []
+            operations: [], 
+            errorMessage: ''
         };
         this.handleChangeAmount = this.handleChangeAmount.bind(this);
         this.onSubmitOperation = this.onSubmitOperation.bind(this);
@@ -91,7 +93,10 @@ class Home extends Component {
         } else {
             this.setState({ modalTitle: "Retrait" });
         }
-        this.setState({ openModal: true })
+        this.setState({ 
+            openModal: true,
+            operation: this.emptyOperation
+        });
     }
 
     /**
@@ -128,10 +133,15 @@ class Home extends Component {
                         username: this.props.match.params.username
                     },
                     amount: this.state.operation.amount
+                }).then(res => {
+                    this.setState({ 
+                        errorMessage: res.data,
+                    });
                 });
         } catch (err) {
-            console.error("Error response: ");
-            console.error(err.response.data);
+            this.setState({ 
+                errorMessage: err.response.data,
+            });
         }
         this.fetchClientInfos();
         this.fetchOperations();
@@ -139,7 +149,7 @@ class Home extends Component {
 
 
     render() {
-        const { client, isLoading, modalTitle, operation, openModal, operations } = this.state;
+        const { client, isLoading, modalTitle, operation, openModal, operations, errorMessage } = this.state;
 
         if (isLoading) {
             return <p>Chargement...</p>;
@@ -167,6 +177,9 @@ class Home extends Component {
                                 <Card>
                                     <CardBody className="text-center">
                                         <CardTitle tag="h1">Solde: {currentBalance}€</CardTitle>
+                                        <Alert color="warning">
+                                            {errorMessage}
+                                        </Alert>
                                         <CardSubtitle tag="h4" className="mb-2 text-muted">Opérations</CardSubtitle>
                                         <Row>
                                             <Col sm="6">
